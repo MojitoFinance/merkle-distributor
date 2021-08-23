@@ -3,7 +3,6 @@
   "description": "📦 A smart contract that distributes a balance of tokens according to a merkle root",
   "version": "0.1.0",
   "homepage": "https://mojitoswap.finance",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/MojitoFinance/merkle-distributor"

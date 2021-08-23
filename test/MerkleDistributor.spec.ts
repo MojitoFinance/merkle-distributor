@@ -49,7 +49,7 @@ describe('MerkleDistributor', () => {
     describe('#deadline', () => {
         it('returns the deadline', async () => {
             const distributor = await deployContract(wallet0, Distributor, [token.address, ZERO_BYTES32, wallet0.address], overrides)
-            expect(await distributor.deadline()).to.equal(Math.floor(new Date().getTime() / 1000) + 10 * 24 * 60 * 60)
+            expect(await distributor.deadline()).to.equal(Math.floor(new Date().getTime() / 1000) + 180 * 24 * 60 * 60)
         })
     })
 

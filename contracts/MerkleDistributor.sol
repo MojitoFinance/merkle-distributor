@@ -18,7 +18,7 @@ contract MerkleDistributor is IMerkleDistributor {
         token = token_;
         merkleRoot = merkleRoot_;
         treasury = treasury_;
-        deadline = block.timestamp + 10 days;
+        deadline = block.timestamp + 180 days;
     }
 
     function isClaimed(uint256 index) public view override returns (bool) {
