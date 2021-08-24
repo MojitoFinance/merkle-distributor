@@ -89,7 +89,7 @@ describe('MerkleDistributor', () => {
         overrides
       )
       await expect(distributor.claim(0, wallet0.address, 10, [])).to.be.revertedWith(
-        'MerkleDistributor: Invalid proof.'
+        'MerkleDistributor::claim: Invalid proof.'
       )
     })
 
@@ -101,7 +101,7 @@ describe('MerkleDistributor', () => {
         overrides
       )
       await expect(distributor.claim(0, wallet0.address, 10, [])).to.be.revertedWith(
-        'MerkleDistributor: Invalid proof.'
+        'MerkleDistributor::claim: Invalid proof.'
       )
     })
 
@@ -161,7 +161,7 @@ describe('MerkleDistributor', () => {
         const proof0 = tree.getProof(0, wallet0.address, BigNumber.from(100))
         await distributor.claim(0, wallet0.address, 100, proof0, overrides)
         await expect(distributor.claim(0, wallet0.address, 100, proof0, overrides)).to.be.revertedWith(
-          'MerkleDistributor: Drop already claimed.'
+          'MerkleDistributor::claim: Drop already claimed.'
         )
       })
 
@@ -183,7 +183,7 @@ describe('MerkleDistributor', () => {
 
         await expect(
           distributor.claim(0, wallet0.address, 100, tree.getProof(0, wallet0.address, BigNumber.from(100)), overrides)
-        ).to.be.revertedWith('MerkleDistributor: Drop already claimed.')
+        ).to.be.revertedWith('MerkleDistributor::claim: Drop already claimed.')
       })
 
       it('cannot claim more than once: 1 and then 0', async () => {
@@ -204,20 +204,20 @@ describe('MerkleDistributor', () => {
 
         await expect(
           distributor.claim(1, wallet1.address, 101, tree.getProof(1, wallet1.address, BigNumber.from(101)), overrides)
-        ).to.be.revertedWith('MerkleDistributor: Drop already claimed.')
+        ).to.be.revertedWith('MerkleDistributor::claim: Drop already claimed.')
       })
 
       it('cannot claim for address other than proof', async () => {
         const proof0 = tree.getProof(0, wallet0.address, BigNumber.from(100))
         await expect(distributor.claim(1, wallet1.address, 101, proof0, overrides)).to.be.revertedWith(
-          'MerkleDistributor: Invalid proof.'
+          'MerkleDistributor::claim: Invalid proof.'
         )
       })
 
       it('cannot claim more than proof', async () => {
         const proof0 = tree.getProof(0, wallet0.address, BigNumber.from(100))
         await expect(distributor.claim(0, wallet0.address, 101, proof0, overrides)).to.be.revertedWith(
-          'MerkleDistributor: Invalid proof.'
+          'MerkleDistributor::claim: Invalid proof.'
         )
       })
 
@@ -365,7 +365,7 @@ describe('MerkleDistributor', () => {
           const proof = tree.getProof(i, wallet0.address, BigNumber.from(100))
           await distributor.claim(i, wallet0.address, 100, proof, overrides)
           await expect(distributor.claim(i, wallet0.address, 100, proof, overrides)).to.be.revertedWith(
-            'MerkleDistributor: Drop already claimed.'
+            'MerkleDistributor::claim: Drop already claimed.'
           )
         }
       })
@@ -426,7 +426,7 @@ describe('MerkleDistributor', () => {
           .to.emit(distributor, 'Claimed')
           .withArgs(claim.index, account, claim.amount)
         await expect(distributor.claim(claim.index, account, claim.amount, claim.proof, overrides)).to.be.revertedWith(
-          'MerkleDistributor: Drop already claimed.'
+          'MerkleDistributor::claim: Drop already claimed.'
         )
       }
       expect(await token.balanceOf(distributor.address)).to.eq(0)

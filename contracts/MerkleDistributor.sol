@@ -36,22 +36,22 @@ contract MerkleDistributor is IMerkleDistributor {
     }
 
     function claim(uint256 index, address account, uint256 amount, bytes32[] calldata merkleProof) external override {
-        require(block.timestamp <= deadline, 'MerkleDistributor: Drop has ended.');
-        require(!isClaimed(index), 'MerkleDistributor: Drop already claimed.');
+        require(block.timestamp <= deadline, "MerkleDistributor::claim: Drop has ended.");
+        require(!isClaimed(index), "MerkleDistributor::claim: Drop already claimed.");
 
         // Verify the merkle proof.
         bytes32 node = keccak256(abi.encodePacked(index, account, amount));
-        require(MerkleProof.verify(merkleProof, merkleRoot, node), 'MerkleDistributor: Invalid proof.');
+        require(MerkleProof.verify(merkleProof, merkleRoot, node), "MerkleDistributor::claim: Invalid proof.");
 
         // Mark it claimed and send the token.
         _setClaimed(index);
-        require(IERC20(token).transfer(account, amount), 'MerkleDistributor: Transfer failed.');
+        require(IERC20(token).transfer(account, amount), "MerkleDistributor::claim: Transfer failed.");
 
         emit Claimed(index, account, amount);
     }
 
     function refund() external override {
-        require(block.timestamp > deadline, 'MerkleDistributor: Drop is not over yet.');
-        require(IERC20(token).transfer(treasury, IERC20(token).balanceOf(address(this))), 'MerkleDistributor: Transfer failed.');
+        require(block.timestamp > deadline, "MerkleDistributor::refund: Drop is not over yet.");
+        require(IERC20(token).transfer(treasury, IERC20(token).balanceOf(address(this))), "MerkleDistributor::refund: Transfer failed.");
     }
 }
